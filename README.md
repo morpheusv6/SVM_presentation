@@ -1,7 +1,7 @@
 Support Vector Machines presentation
 ================
 
-Presentation for CSC722: Advanced machine learning class
+CSC722: Advanced machine learning
 ----------
 
 Authors
