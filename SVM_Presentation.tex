@@ -141,4 +141,37 @@
   \end{multicols}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Observations}
+  \begin{itemize}
+    \item{  
+            At most $\nu N$ data points fall outside the insensitive tube, while 
+            at least $\nu N$ data points are the support vectors that lie on or 
+            inside the tube
+         }
+    \item {Parameters $\nu$ and $C$ are determined by cross-validation}
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Relevance Vector Machines}
+
+\begin{frame}
+  \frametitle{Limitations of SVM}
+  \begin{itemize}
+    \item {
+            Outputs of SVM represent decisions rather than posterior 
+            probabilities
+          }
+    \item {Extension to $K > 2$ classes is problematic}
+    \item {
+            Complexity parameter $C$ or $\nu$ to be found out using cross 
+            validation
+          }
+    \item {
+            Kernels used are centered on training data points and are required 
+            to be \textit{positive definite} (Mercer kernels)
+          }
+  \end{itemize}
+\end{frame}
 \end{document}
