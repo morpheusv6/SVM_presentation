@@ -17,7 +17,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Support Vector Machines}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{SVMs for regression}
 
@@ -72,6 +71,11 @@
     \item {$t_n \leq y(\mathbf{x}_n) + \epsilon + \xi_n$}
     \item {$t_n \geq y(\mathbf{x}_n) - \epsilon - \widehat{\xi}_n$}
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{SVM Regression \textit{tube}}
+  \includegraphics[trim=2cm 0cm 0cm 5cm,clip,scale=0.5,page=9]{Chapter_7.pdf}
 \end{frame}
 
 \begin{frame}
@@ -153,8 +157,24 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{$\nu$-SVM regression}
+  \includegraphics[trim=2cm 0cm 0cm 5cm,clip,scale=0.5,page=10]{Chapter_7.pdf}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Relevance Vector Machines}
+
+\begin{frame}
+  \frametitle{Relevance Vector Machines}
+  \begin{itemize}
+    \item {Bayesian sparse kernel technique similar to SVM}
+    \item {
+            Leads to much sparser models resulting in faster performance on 
+            test data while maintaining the same generalization error
+          }
+  \end{itemize}
+\end{frame}
 
 \begin{frame}
   \frametitle{Limitations of SVM}
@@ -171,6 +191,74 @@
     \item {
             Kernels used are centered on training data points and are required 
             to be \textit{positive definite} (Mercer kernels)
+          }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{RVM for regression}
+  Consider the model defining a conditional distribution for a real-valued 
+  target variable $t$, given an input vector $\mathbf{x}$
+  \begin{equation}
+    p(t|\mathbf{x}, \mathbf{w} , \beta) = 
+                                    \mathcal{N}(t|y(\mathbf{x}), \beta^{-1}) 
+  \end{equation}
+  where $\beta = \sigma^{-2}$ is the noise precision and mean is of the form
+  \begin{equation}
+    y(\mathbf{x}) = \sum\limits_{i=1}^M w_i \phi_i(\mathbf{x}) 
+                    = \mathbf{w}^T\phi(\mathbf{x})
+  \end{equation}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  Using kernel for each data point in place of the the bias function 
+  $\phi_i(\mathbf{x})$
+  \begin{equation}
+    y(\mathbf{x}) = \sum\limits_{n=1}^N w_n k(\mathbf{x}, \mathbf{x}_n) + b 
+  \end{equation}
+  Given a set of set of $N$ observations of the input vector $\mathbf{x}$, 
+  which can be denote collectively by data matrix $\mathbf{X}$ whose $n^{th}$ 
+  row is $\mathbf{x}_n^T$ with $n = 1, \ldots , N$ and corresponding target 
+  values $\mathbf{t} = (t_1, \ldots, t_N)^T$, the \textit{likelihood} function 
+  is
+  \begin{equation}
+    p(\mathbf{t}|\mathbf{X}, \mathbf{w}, \beta) 
+        = \prod\limits_{n=1}^N p(t_n | \mathbf{x}_n, \mathbf{w}, \beta^{-1})
+  \end{equation}
+\end{frame}
+
+\begin{frame}
+  Simplifying, the predictive distribution over $t$ for a new input 
+  $\mathrm{x}$ is 
+  \begin{equation}
+  p(t|\mathrm{x}, \mathbf{X}, \mathbf{t}, \mathbf{\alpha}^*, \mathbf{\beta}^*)
+    = \mathcal{N}(t|\mathbf{m}^T \phi(\mathrm{x}), \sigma^2(\mathrm{x}))
+  \end{equation}
+  where $\mathbf{\alpha}^{*} and \mathbf{\beta}^{*}$ are hyperparameters that 
+  maximize the marginal likelihood and \\
+  $\mathbf{m}$ is the posterior mean and variance of the predictive 
+  distribution is $\sigma^2(\mathrm{x})$
+\end{frame}
+
+\begin{frame}
+  \frametitle{RVM vs $\nu$-SVM regression}
+  \includegraphics[trim=2cm 0cm 0cm 5cm,clip,scale=0.5,page=11]{Chapter_7.pdf}
+\end{frame}
+
+\begin{frame}
+  \frametitle{RVM versus SVM}
+  \begin{itemize}
+    \item {
+            Training involves optimizing a non convex function 
+            $\Rightarrow$ 
+            longer training time $O(N^3)$ as compared to SVM $O(N^2)$
+          }
+    \item {
+            Parameters governing the complexity and noise variance are 
+            determined automatically from a single run, as compared to SVM 
+            which requires multiple training runs (cross validation) for 
+            determining $C$ and $\epsilon$ (or $\nu$)
           }
   \end{itemize}
 \end{frame}
