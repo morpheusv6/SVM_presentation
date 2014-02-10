@@ -1,0 +1,144 @@
+\documentclass[t,14pt]{beamer}
+
+\input setup.tex
+\input macros.tex
+
+\usepackage{multicol}
+
+\date[Introduction]{Support Vector Machines}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Support Vector Machines}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{SVMs for regression}
+
+\begin{frame}
+  \frametitle{Error function in regression}
+  In simple regression, the objective is to minimize a regularized error 
+  function
+  \begin{equation}
+    \frac{\displaystyle 1}{\displaystyle 2}
+        \sum\limits_{n=1}^N \{y_n - t_n\}^2 + 
+        \frac{\displaystyle \lambda}{\displaystyle 2}{\lVert w \rVert}^2
+  \end{equation}
+
+  To obtain sparse solutions, the above equation can be replaced by a 
+  $\epsilon \textit{ - insensitive error function}$
+  \begin{equation}
+    E_\epsilon(y(\mathbf{x}) - t) = 
+        \begin{cases}
+            0 & \text{if } \lvert y(x) - t \rvert < \epsilon \\
+            \lvert y(x) - t \rvert - \epsilon & \text{otherwise}
+        \end{cases}
+  \end{equation}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Minimizing the error function}
+  To obtain the solution, minimize the regularized error function
+  \begin{equation}
+    C \sum\limits_{n=1}^N E_\epsilon(y(\mathbf{x}_n) - t_n) + 
+      \frac{\displaystyle 1}{\displaystyle 2}{\lVert w \rVert}^2
+  \end{equation} 
+  where $C$ is the (inverse) regularization parameter
+\end{frame}
+
+\begin{frame}
+  \frametitle{Error function with slack variables}
+  By introducing slack variables for each data point $x_n$\\
+  \begin{itemize}
+    \item {$\xi_n \geq 0$ where $t_n > y(\mathbf{x}_n) + 
+  \epsilon$} 
+    \item {$\widehat{\xi}_n \geq 0$ where $t_n < y(\mathbf{x}n) 
+  + \epsilon$} 
+  \end{itemize}
+  the error function can be written as
+  \begin{equation}
+    C \sum\limits_{n=1}^N (\xi_n + \widehat{\xi}_n) + 
+        \frac{\displaystyle 1}{\displaystyle 2}{\lVert w \rVert}^2
+  \end{equation}
+  This is to be minimized subject to the constraints
+  \begin{itemize}
+    \item {$\widehat{\xi}_n \geq 0$ and $\xi \geq 0$}
+    \item {$t_n \leq y(\mathbf{x}_n) + \epsilon + \xi_n$}
+    \item {$t_n \geq y(\mathbf{x}_n) - \epsilon - \widehat{\xi}_n$}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Applying Lagrange multipliers}
+  Plugging in the Lagrange multipliers and simplifying,
+  \begin{align} 
+    \widetilde{L}(\mathbf{a}, \widehat{\mathbf{a}}) &= 
+        -\frac{\displaystyle 1}{\displaystyle 2}
+        \sum\limits_{n=1}^N \sum\limits_{m=1}^N 
+            (a_n - \widehat{a}_n)(a_m - \widehat{a}_m)
+            k(\mathbf{x}_n,\mathbf{x}_m) \nonumber \\
+            &\quad - \epsilon \sum\limits_{n=1}^N(a_n - \widehat{a}_n)
+            + \sum\limits_{n=1}^N(a_n - \widehat{a}_n)t_n
+  \end{align}
+  where $a_n \geq 0$ and $\widehat{a_n} \geq 0$ are the Lagrange multipliers; 
+  and\\
+  $k(\mathbf{x}, \mathbf{x'}) = \phi(\mathbf{x})^T \phi(\mathbf{x'})$ is the 
+  kernel.
+\end{frame} 
+
+\begin{frame}
+  \frametitle{Predicting new inputs}
+  The prediction can be made for new inputs using
+  \begin{equation}
+    y(\mathbf{x}) = \sum\limits_{n=1}^N (a_n - \widehat{a}_n)
+                                        k(\mathbf{x}, \mathbf{x}_n)
+                    + b
+  \end{equation}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{$\nu$-SVMs}
+
+\begin{frame}
+  \frametitle{$\nu$-SVMs}
+  \begin{itemize}
+    \item {An alternative for of SVM for regression}
+    \item {
+            Use a parameter $\nu$ that bounds the fraction of points lying 
+            \textit{outside} the tube instead of fixing the width $\epsilon$ 
+            of the \textit{insensitive} region
+          }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Maximizing the dual}
+  \vspace{-2em}
+  \begin{align} 
+    \widetilde{L}(\mathbf{a}, \widehat{\mathbf{a}}) &= 
+        -\frac{\displaystyle 1}{\displaystyle 2}
+        \sum\limits_{n=1}^N \sum\limits_{m=1}^N 
+            (a_n - \widehat{a}_n)(a_m - \widehat{a}_m)
+            k(\mathbf{x}_n,\mathbf{x}_m) \nonumber \\
+            &\quad + \sum\limits_{n=1}^N(a_n - \widehat{a}_n)t_n
+  \end{align}
+  subject to the constraints
+  \begin{multicols}{2}
+  \begin{itemize}
+    \item {$0 \leq a_n \leq C/N$}
+    \item {$0 \leq \widehat{a}_n \leq C/N$}
+    \item {$\sum\limits_{n=1}^N(a_n - \widehat{a}_n) = 0$} 
+    \vfill
+    \columnbreak
+    \item {$\sum\limits_{n=1}^N(a_n + \widehat{a}_n) \leq \nu C$} 
+  \end{itemize}
+  \end{multicols}
+\end{frame}
+
+\end{document}
