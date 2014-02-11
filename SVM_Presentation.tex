@@ -262,4 +262,37 @@
           }
   \end{itemize}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Application - SVMs vs other methods}
+
+\begin{frame}
+  \frametitle{SVM vs Logistic regression}
+  Given the number of features $n$ and the number of training samples $m$
+  \begin{itemize}
+    \item {
+            $n$ is large relative to $m$: Logistic regression or SVM with linear 
+            kernel 
+          }
+    \item {$n$ is small and $m$ is intermediate: SVM with Gaussian kernel}
+    \item {
+            $n$ is small and $m$ is large: Create/add more features, then use 
+            logistic regression or SVM with linear kernel
+          }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{SVM vs ANN}
+  \begin{itemize}
+    \item { 
+            ANNs can be used when there is a large number of training sample 
+            available
+          }
+    \item {
+            SVMs have a better generalization than ANNs due to Structural Risk
+            Minimization (SRM) principle
+          }
+  \end{itemize}
+\end{frame}
 \end{document}
